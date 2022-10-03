@@ -1,0 +1,9 @@
+
+Graph_BurstDebugInformation_DoNotShip
+Graph_Data
+MonoBleedingEdge
+obj
+.vs
+.vsconfig
+*.csproj
+Library
