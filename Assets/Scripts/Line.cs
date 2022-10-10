@@ -8,15 +8,17 @@ using UnityEngine.SceneManagement;
 public class Line : MonoBehaviour
 {
     public List<string> lines;
+    public List<int> emptyPointsList;
     public InputField StartPoint, FinishPoint;
     public GameObject LineObj;
     public Text ResultText;
+    public Text EmptyPointsText;
 
     public void OnMouseDown()
     {
         int points = GameObject.FindGameObjectsWithTag("Point").Length;
         
-        if ((StartPoint.text != null) && (FinishPoint.text != null))
+        if ((StartPoint.text != "") && (FinishPoint.text != ""))
         {
             int startPoint = Int32.Parse(StartPoint.text);
             int finishPoint = Int32.Parse(FinishPoint.text);
@@ -50,6 +52,9 @@ public class Line : MonoBehaviour
                         ) 
                         * Mathf.Rad2Deg
                     );
+
+                    float scale = (float)Math.Sqrt(Math.Pow((point_2.transform.position.x - point_1.transform.position.x), 2) + Math.Pow((point_2.transform.position.y - point_1.transform.position.y), 2));
+                    obj.transform.localScale = new Vector2(scale / 6, 1);
                 }
             }
         }
@@ -116,6 +121,12 @@ public class Line : MonoBehaviour
         int[,] result = new int[varibles, varibles];
 
         ResultText.text = "";
+        EmptyPointsText.text = "";
+
+        for (int i = 0; i < varibles; i++)
+        {
+            emptyPointsList.Add(i);
+        }
 
         for (int i = 0; i < varibles; i++)
         {
@@ -124,6 +135,15 @@ public class Line : MonoBehaviour
                 foreach (string el in lines)
                 {
                     string[] var = el.Split("-");
+                    int point = Convert.ToInt32(var[0]);
+         
+                    for (int l = 0; l < emptyPointsList.Count; l++)
+                    {
+                        if (emptyPointsList[l] + 1 == point)
+                        {
+                            emptyPointsList.RemoveAt(l);
+                        }
+                    }
 
                     if (Convert.ToInt32(var[0]) - 1 == i)
                     {
@@ -148,6 +168,13 @@ public class Line : MonoBehaviour
             }
 
             ResultText.text = ResultText.text + "\n";
+        }
+
+        EmptyPointsText.text = "Empty: ";
+        for (int i = 0; i < emptyPointsList.Count; i++)
+        {
+            Debug.Log(emptyPointsList[i] + 1);
+            EmptyPointsText.text = EmptyPointsText.text + (emptyPointsList[i] + 1).ToString() + "  ";
         }
     }
 }
