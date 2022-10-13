@@ -122,6 +122,8 @@ public class Line : MonoBehaviour
 
         ResultText.text = "";
         EmptyPointsText.text = "";
+        EmptyPointsText.text = "";
+        emptyPointsList.Clear();
 
         for (int i = 0; i < varibles; i++)
         {
